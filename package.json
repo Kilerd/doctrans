@@ -1,0 +1,23 @@
+{
+  "name": "doctrans",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.12.2",
+    "koa": "^2.4.1",
+    "koa-body": "^2.5.0",
+    "koa-cors": "^0.0.16",
+    "koa-router": "^7.3.0"
+  },
+  "scripts": {
+    "start": "babel-node index.js"
+  },
+  "bin": {
+    "doctrans": "index.js"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1"
+  }
+}
