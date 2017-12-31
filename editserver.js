@@ -33,16 +33,15 @@ export const startServer = async (config, port) => {
 
   // save article
   router.post('/articles', async (ctx, next) => {
-    try {
-      let { name, file, data } = ctx.request.body;
-      if ((name && file && data) == undefined) {
-        ctx.body = {
-          status: 'missing parameter'
-        }
+    
+    let { name, file, data } = ctx.request.body;
+    if ((name && file && data) == undefined) {
+      ctx.body = {
+        status: 'missing parameter'
       }
+    }
 
-      config.articles[file] = name;
-      await changeConfig(config);
+    try {
       const articleData = await read(resolvePath(config.source, `${file}.json`));
       articleData.markdown = data || '';
       await write(resolvePath(config.source, `${file}.json`), articleData);
@@ -50,8 +49,17 @@ export const startServer = async (config, port) => {
         'status': 'ok'
       }
     }catch (e) {
-      ctx.body = {
-        'status': 'error'
+      try{
+        await write(resolvePath(config.source, `${file}.json`), { markdown: data || '', translations: {} });
+        config.articles[file] = name;
+        await changeConfig(config);
+        ctx.body = {
+          'status': 'ok'
+        }
+      } catch (e) {
+        ctx.body = {
+          'status': 'error'
+        }
       }
     }
   })
