@@ -43,8 +43,9 @@ export const startServer = async (config, port) => {
 
       config.articles[file] = name;
       await changeConfig(config);
-
-      await write(resolvePath(config.source, `${file}.json`), {markdown: data, translations: {}});
+      const articleData = await read(resolvePath(config.source, `${file}.json`));
+      articleData.markdown = data || '';
+      await write(resolvePath(config.source, `${file}.json`), articleData);
       ctx.body = {
         'status': 'ok'
       }
