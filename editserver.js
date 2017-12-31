@@ -35,32 +35,34 @@ export const startServer = async (config, port) => {
   router.post('/articles', async (ctx, next) => {
     
     let { name, file, data } = ctx.request.body;
-    if ((name && file && data) == undefined) {
+    console.log(name, file, data, name && file && data);
+    if ((name && file && data) === undefined) {
       ctx.body = {
         status: 'missing parameter'
       }
-    }
-
-    try {
-      const articleData = await read(resolvePath(config.source, `${file}.json`));
-      articleData.markdown = data || '';
-      await write(resolvePath(config.source, `${file}.json`), articleData);
-      ctx.body = {
-        'status': 'ok'
-      }
-    }catch (e) {
-      try{
-        await write(resolvePath(config.source, `${file}.json`), { markdown: data || '', translations: {} });
-        config.articles[file] = name;
-        await changeConfig(config);
+    } else {
+      try {
+        const articleData = await read(resolvePath(config.source, `${file}.json`));
+        articleData.markdown = data || '';
+        await write(resolvePath(config.source, `${file}.json`), articleData);
         ctx.body = {
           'status': 'ok'
         }
-      } catch (e) {
-        ctx.body = {
-          'status': 'error'
+      }catch (e) {
+        try{
+          await write(resolvePath(config.source, `${file}.json`), { markdown: data || '', translations: {} });
+          ctx.body = {
+            'status': 'ok'
+          }
+        } catch (e) {
+          ctx.body = {
+            'status': 'error'
+          }
+          return;
         }
       }
+      config.articles[file] = name;
+      await changeConfig(config);
     }
   })
 
