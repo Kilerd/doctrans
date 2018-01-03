@@ -1,0 +1,65 @@
+.file-catalog-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 52px;
+  bottom: 52px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #f6f5f1;
+
+  ul {
+    margin: 0;
+    position: relative;
+    list-style: none;
+
+    li {
+      outline: 0;
+      font-size: 14px;
+      line-height: 18px;
+      color: #000;
+      text-decoration: none;
+      background: #f6f5f1;
+
+      cursor: pointer;
+
+      a {
+        background-image: url(https://d2srrzh48sp2nh.cloudfront.net/b4038d62/images/editor/red-dot.svg), none;
+        display: block;
+        color: #555;
+        background-position: 10px 8px;
+        background-repeat: no-repeat;
+        padding: 8px 12px 9px 38px;
+        min-height: 18px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      :hover {
+        background-image: url(https://d2srrzh48sp2nh.cloudfront.net/b4038d62/images/editor/red-dot.svg), none;
+        background-color: #dedede;
+      }
+    }
+  }
+}
+
+.add-paper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50px;
+  border-top: 0 none;
+  border-bottom: 0 none;
+  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: grey;
+
+  button {
+    width: 80px;
+    height: 40px;
+  }
+}
