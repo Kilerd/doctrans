@@ -26,7 +26,7 @@ commander
       source: options.source,
       dist: options.dist,
       articles: {},
-      defaultLanuage: options.language,
+      defaultLanguage: options.language,
       languages: [options.language]
     }
     await utils.write('.doctrans.json', config);

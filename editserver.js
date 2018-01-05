@@ -91,24 +91,20 @@ export const startServer = async (config, port) => {
         'status': 'missing parameter'
       }
     } else {
-      if (!config.languages.includes(language)) {
-        config.languages.push(language)
-        await changeConfig(config);
+      if (!Array.isArray(language)){
+        language = [language]
       }
+      if (!language.includes(config.defaultLanguage)) {
+        language.push(config.defaultLanguage)
+      }
+      config.languages = language
+      console.log(config)
+      await changeConfig(config)
       ctx.body = {
         'status': 'ok'
       }
     }
 
-  })
-
-  // delete language
-  router.delete('/languages/:language', async (ctx, next) => {
-    config.languages = config.languages.filter(item => item != ctx.params.language);
-    await changeConfig(config);
-    ctx.body = {
-      'status': 'ok'
-    }
   })
 
   // add/change translation
