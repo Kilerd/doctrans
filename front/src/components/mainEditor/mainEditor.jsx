@@ -24,10 +24,12 @@ export default class MainEditor extends Component {
 
   async componentWillMount() {
     let { fileName } = this.props.location.query
-    let result = await this.props.getPaperContent(fileName)
-    this.setState({
-      code: result.data.markdown
-    })
+    if (fileName) {
+      let result = await this.props.getPaperContent(fileName)
+      this.setState({
+        code: result.data.markdown
+      })
+    }
   }
 
   async componentWillUnmount() {

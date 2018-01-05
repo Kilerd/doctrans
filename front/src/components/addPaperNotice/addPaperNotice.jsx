@@ -28,7 +28,7 @@ export default class AddPaperNotice extends Component {
     let data = {
       file: this.state.fileName,
       name: this.state.name,
-      content: ''
+      data: ''
     }
     await this.props.createPaper(data)
     await ui.closeAddPaperNotice()
