@@ -2,7 +2,8 @@ import immutable from 'immutable'
 
 const initState = immutable.fromJS({
   showTranslateSideBar: false,
-  showAddPaperNotice: false
+  showAddPaperNotice: false,
+  showAddLanguageNotice: false
 })
 
 function reducer(state = initState, action) {
@@ -25,6 +26,14 @@ function reducer(state = initState, action) {
 
     case 'CloseAddPaperNotice': {
       return state.set('showAddPaperNotice', false)
+    }
+
+    case 'ShowAddLanguageNotice': {
+      return state.set('showAddLanguageNotice', true)
+    }
+
+    case 'CloseAddLanguageNotice': {
+      return state.set('showAddLanguageNotice', false)
     }
 
     default: {

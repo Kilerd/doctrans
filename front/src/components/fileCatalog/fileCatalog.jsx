@@ -64,7 +64,9 @@ class FileCatalog extends Component {
           </ul>
         </div>
         <div className="add-paper">
-          <button onClick={this.addPaper.bind(this)}>编写文档</button>
+          <button className="add-paper-btn" onClick={this.addPaper.bind(this)}>
+            编写文档
+          </button>
         </div>
       </div>
     )

@@ -1,0 +1,28 @@
+.choice-language-notice {
+  position: absolute;
+  width: 250px;
+  height: 100px;
+  right: 50%;
+  top: 50%;
+  margin-top: -50px;
+  margin-right: -100px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid grey;
+  background-color: white;
+  z-index: 11;
+  .notice-body {
+    margin-bottom: 10px;
+    form {
+      display: flex;
+      flex-direction: row;
+      label {
+        margin: 0 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}

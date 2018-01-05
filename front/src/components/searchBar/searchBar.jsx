@@ -5,7 +5,8 @@ import './searchBar.scss'
 import ui from '../../action/uiAction'
 
 @connect(state => ({
-  showTranslateSideBar: state.ui.getIn(['showTranslateSideBar'])
+  showTranslateSideBar: state.ui.getIn(['showTranslateSideBar']),
+  showAddLanguageNotice: state.ui.getIn(['showAddLanguageNotice'])
 }))
 export default class SearchBar extends Component {
   static contextTypes = {
@@ -25,11 +26,20 @@ export default class SearchBar extends Component {
     }
   }
 
+  choiceLanguage() {
+    if (!this.props.showAddLanguageNotice) {
+      ui.showAddLanguageNotice()
+    }
+  }
+
   render() {
     return (
       <div className="search-bar">
         <button onClick={this.fileCatalog.bind(this)}>文档目录</button>
         <button onClick={this.translateCatalog.bind(this)}>翻译目录</button>
+        <button className="choice-language-btn" onClick={this.choiceLanguage.bind(this)}>
+          选择语言
+        </button>
       </div>
     )
   }

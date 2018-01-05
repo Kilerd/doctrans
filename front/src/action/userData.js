@@ -24,7 +24,7 @@ const actions = {
       console.log(4444, result)
       dispatch({
         type: 'GetPaperList',
-        data: result.data.articles
+        data: result.data
       })
       return result
     }
@@ -47,7 +47,23 @@ const actions = {
     return result
   },
 
-  getSentenceList: () => dispatch({ type: 'GetSentenceList' })
+  getSentenceList: () => dispatch({ type: 'GetSentenceList' }),
+
+  setLanguages: async function(data) {
+    let result = await postData('/languages', data)
+    return result
+  },
+
+  getLanguages: function(file) {
+    return async dispatch => {
+      let result = await getData(`/config`)
+      dispatch({
+        type: 'GetLanguages',
+        data: result.data.languages
+      })
+      return result
+    }
+  }
 }
 
 export default actions

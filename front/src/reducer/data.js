@@ -5,7 +5,12 @@ const initState = immutable.fromJS({})
 function reducer(state = initState, action) {
   switch (action.type) {
     case 'GetPaperList': {
-      return state.set('paperList', action.data)
+      let { articles, defaultLanuage, languages } = action.data
+      state = state
+        .set('paperList', articles)
+        .set('defaultLanguage', defaultLanuage)
+        .set('languages', languages)
+      return state
     }
 
     case 'CreatePaper': {
@@ -24,6 +29,11 @@ function reducer(state = initState, action) {
     case 'GetPaperContent': {
       return state.set('currentPaperContent', action.data)
     }
+
+    case 'GetLanguages': {
+      return state.update('languages', value => (value = ['1', '2']))
+    }
+
     default: {
       return state
     }

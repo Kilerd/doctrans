@@ -32,7 +32,7 @@ export default class AddPaperNotice extends Component {
     }
     await this.props.createPaper(data)
     await ui.closeAddPaperNotice()
-    this.context.router.history.push('/main/paper')
+    this.context.router.history.push(`/main/paper?fileName=${data.file}&name=${data.name}`)
     this.setState({
       name: '',
       fileName: ''
