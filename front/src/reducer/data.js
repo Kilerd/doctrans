@@ -5,10 +5,10 @@ const initState = immutable.fromJS({})
 function reducer(state = initState, action) {
   switch (action.type) {
     case 'GetPaperList': {
-      let { articles, defaultLanuage, languages } = action.data
+      let { articles, defaultLanguage, languages } = action.data
       state = state
         .set('paperList', articles)
-        .set('defaultLanguage', defaultLanuage)
+        .set('defaultLanguage', defaultLanguage)
         .set('languages', languages)
       return state
     }
@@ -31,7 +31,7 @@ function reducer(state = initState, action) {
     }
 
     case 'GetLanguages': {
-      return state.update('languages', value => (value = ['1', '2']))
+      return state.update('languages', value => (value = action.data))
     }
 
     default: {

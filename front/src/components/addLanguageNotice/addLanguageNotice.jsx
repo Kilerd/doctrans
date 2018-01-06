@@ -15,19 +15,32 @@ import ui from '../../action/uiAction'
 export default class addLanguageNotice extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      newLanguageList: []
+    }
   }
 
-  async handleClick() {}
+  async handleClick() {
+    console.log(this.state.newLanguageList)
+    let result = await userData.setLanguages({ language: this.state.newLanguageList })
+    console.log(result)
+    await ui.closeAddLanguageNotice()
+    await this.props.getLanguages()
+  }
 
   checkLanguage(e) {
-    console.log(e.target)
-    console.log(e.target.checked)
-    console.log(e.target.parentNode.innerText)
-    console.log('defaultLanguage', this.props.defaultLanguage)
+    if (e.target.checked) {
+      this.state.newLanguageList.push(e.target.parentNode.innerText)
+      console.log('afterPush', this.state.newLanguageList)
+    } else {
+      let index = this.state.newLanguageList.indexOf(e.target.parentNode.innerText)
+      this.state.newLanguageList.splice(index, 1)
+      console.log('afterSlice', this.state.newLanguageList)
+    }
   }
 
   getExlanguages(data, languages) {
+    this.state.newLanguageList = [...languages]
     let result = []
     for (let item of data) {
       if (languages.indexOf(item) !== -1) {
@@ -47,10 +60,10 @@ export default class addLanguageNotice extends Component {
 
   render() {
     let { defaultLanguage, languages = [] } = this.props
-    let data = ['en', 'zh']
+    let data = ['en', 'zh', 'bb']
     let exlanguages = this.getExlanguages(data, languages)
     let { show } = this.props
-    console.log('exlanguages', exlanguages)
+    console.log('languages', exlanguages)
     return (
       <div className="choice-language-notice" style={{ display: show ? 'flex' : 'none' }}>
         <div className="notice-body">
@@ -60,7 +73,12 @@ export default class addLanguageNotice extends Component {
               (key, index) =>
                 key.language !== defaultLanguage ? (
                   <label key={index}>
-                    <input type="checkbox" defaultChecked={key.own} onChange={this.checkLanguage.bind(this)} />
+                    <input
+                      name={index}
+                      type="checkbox"
+                      onChange={this.checkLanguage.bind(this)}
+                      defaultChecked={key.own ? true : ''}
+                    />
                     {key.language}
                   </label>
                 ) : (
@@ -70,7 +88,7 @@ export default class addLanguageNotice extends Component {
           </form>
         </div>
         <div className="notice-btn">
-          <button>确定</button>
+          <button onClick={this.handleClick.bind(this)}>确定</button>
         </div>
       </div>
     )
