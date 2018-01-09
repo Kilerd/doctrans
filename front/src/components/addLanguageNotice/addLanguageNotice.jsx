@@ -21,14 +21,16 @@ export default class addLanguageNotice extends Component {
     }
   }
 
-  componentWillReceiveProps() {
-    let data = ['en', 'zh', 'bb']
-    let { languages = [] } = this.props
-    let result = this.getExlanguages(data, languages)
+  componentWillReceiveProps(nextProps) {
+
+    let allSupportedLanguages = ['en', 'zh', 'bb']
+    let { languages:selectedLanguages = [] } = nextProps
+    
+    let result = this.getExlanguages(allSupportedLanguages, selectedLanguages)
     this.setState({
       currentLanguageList: result
     })
-    console.log('currentLanguageList', this.state.currentLanguageList)
+
   }
 
   async handleClick() {
@@ -50,20 +52,14 @@ export default class addLanguageNotice extends Component {
     }
   }
 
-  getExlanguages(data, languages) {
-    this.state.newLanguageList = [...languages]
+  getExlanguages(supported, current) {
+    this.state.newLanguageList = [...current]
     let result = []
-    for (let item of data) {
-      if (languages.indexOf(item) !== -1) {
-        result.push({
-          language: item,
-          own: true
-        })
+    for (let item of supported) {
+      if (current.includes(item)) {
+        result.push({ language: item, checked: true })
       } else {
-        result.push({
-          language: item,
-          own: false
-        })
+        result.push({ language: item, checked: false })
       }
     }
     return result
@@ -72,6 +68,8 @@ export default class addLanguageNotice extends Component {
   render() {
     let { defaultLanguage } = this.props
     let { show } = this.props
+
+    console.log('render props', this.props)
     return (
       <div className="choice-language-notice" style={{ display: show ? 'flex' : 'none' }}>
         <div className="notice-body">
@@ -85,7 +83,7 @@ export default class addLanguageNotice extends Component {
                       name={index}
                       type="checkbox"
                       onChange={this.checkLanguage.bind(this)}
-                      defaultChecked={key.own ? true : ''}
+                      defaultChecked={key.checked ? true : ''}
                     />
                     {key.language}
                   </label>
