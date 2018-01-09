@@ -16,8 +16,19 @@ export default class addLanguageNotice extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      newLanguageList: []
+      newLanguageList: [],
+      currentLanguageList: []
     }
+  }
+
+  componentWillReceiveProps() {
+    let data = ['en', 'zh', 'bb']
+    let { languages = [] } = this.props
+    let result = this.getExlanguages(data, languages)
+    this.setState({
+      currentLanguageList: result
+    })
+    console.log('currentLanguageList', this.state.currentLanguageList)
   }
 
   async handleClick() {
@@ -59,17 +70,14 @@ export default class addLanguageNotice extends Component {
   }
 
   render() {
-    let { defaultLanguage, languages = [] } = this.props
-    let data = ['en', 'zh', 'bb']
-    let exlanguages = this.getExlanguages(data, languages)
+    let { defaultLanguage } = this.props
     let { show } = this.props
-    console.log('languages', exlanguages)
     return (
       <div className="choice-language-notice" style={{ display: show ? 'flex' : 'none' }}>
         <div className="notice-body">
           <form action="">
             <label title="该语言为默认语言">{defaultLanguage}</label>
-            {exlanguages.map(
+            {this.state.currentLanguageList.map(
               (key, index) =>
                 key.language !== defaultLanguage ? (
                   <label key={index}>
