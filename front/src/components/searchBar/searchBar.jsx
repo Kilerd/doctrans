@@ -5,6 +5,7 @@ import './searchBar.scss'
 import ui from '../../action/uiAction'
 
 @connect(state => ({
+  currentSelectPaper: state.data.getIn(['currentSelectPaper']),
   showTranslateSideBar: state.ui.getIn(['showTranslateSideBar']),
   showAddLanguageNotice: state.ui.getIn(['showAddLanguageNotice'])
 }))
@@ -21,6 +22,9 @@ export default class SearchBar extends Component {
 
   translateCatalog() {
     if (!this.props.showTranslateSideBar) {
+      if (!this.props.currentSelectPaper) {
+        return alert('请选择翻译文章!')
+      }
       ui.showTranslateSideBar()
       this.context.router.history.push('/main/translation')
     }

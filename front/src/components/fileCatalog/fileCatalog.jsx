@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom'
   state => ({
     paperList: state.data.getIn(['paperList'])
   }),
-  { getPaperList: userData.getPaperList }
+  { getPaperList: userData.getPaperList, setCurrentSelectPaper: userData.setCurrentSelectPaper }
 )
 class FileCatalog extends Component {
   static contextTypes = {
@@ -41,6 +41,7 @@ class FileCatalog extends Component {
 
   handleClick(fileName, name) {
     console.log('before', fileName, name)
+    this.props.setCurrentSelectPaper({ fileName, name })
     this.props.history.push(`/main/paper?fileName=${fileName}&name=${name}`)
   }
 

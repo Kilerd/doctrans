@@ -63,6 +63,18 @@ const actions = {
       })
       return result
     }
+  },
+
+  setCurrentSelectPaper: data => dispatch({ type: 'SetCurrentSelectPaper', data }),
+
+  saveTranslate: function(data) {
+    return async dispatch => {
+      let result = await postData(`/articles/${data.file}/translations`, data)
+      dispatch({
+        type: ''
+      })
+      return result
+    }
   }
 }
 

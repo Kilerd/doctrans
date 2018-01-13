@@ -2,20 +2,24 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import MarkdownExchange from '../../util/translation'
 import { getData } from '../../api/fetchData'
+import TranslationBlock from '../translationBlock/translationBlock'
+import './mainTranslation.scss'
 
 @connect(state => ({
   currentPaperContent: state.data.getIn(['currentPaperContent']),
-  sentenceList: []
+  sentenceList: [],
+  languages: state.data.getIn(['languages']),
+  defaultLanguage: state.data.getIn(['defaultLanguage'])
 }))
 export default class MainTranslation extends Component {
-  getValueFromObject(Object) {
+  getValueFromObject(Object, version) {
     for (let value in Object) {
       if (value.toString() === 'value') {
-        this.props.sentenceList.push(Object[value])
+        this.props.sentenceList.push({ value: Object[value], version })
         return
       } else if (value.toString() === 'children') {
         for (let item of Object[value]) {
-          this.getValueFromObject(item)
+          this.getValueFromObject(item, version)
         }
       }
     }
@@ -23,23 +27,25 @@ export default class MainTranslation extends Component {
 
   getData() {
     let data = new MarkdownExchange(this.props.currentPaperContent.markdown)
-    console.log(data)
     let { children } = data.ast
+    console.log('kkkk', children)
     for (let item of children) {
-      this.getValueFromObject(item)
+      this.getValueFromObject(item, item.version)
     }
   }
   render() {
     this.getData()
     return (
       <div className="main-translation">
-        <ul>
-          {this.props.sentenceList.map((key, index) => (
-            <li id={index} key={index} className="main-Translation-item">
-              <a>{key}</a>
-            </li>
-          ))}
-        </ul>
+        {this.props.sentenceList.map((key, index) => (
+          <TranslationBlock
+            key={index}
+            content={key.value}
+            version={key.version}
+            languages={this.props.languages}
+            defaultLanguage={this.props.defaultLanguage}
+          />
+        ))}
       </div>
     )
   }

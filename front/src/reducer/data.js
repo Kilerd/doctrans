@@ -34,6 +34,10 @@ function reducer(state = initState, action) {
       return state.update('languages', value => (value = action.data))
     }
 
+    case 'SetCurrentSelectPaper': {
+      return state.set('currentSelectPaper', action.data)
+    }
+
     default: {
       return state
     }
