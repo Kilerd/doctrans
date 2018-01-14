@@ -15,7 +15,24 @@ export default class MainTranslation extends Component {
   getValueFromObject(Object, version) {
     for (let value in Object) {
       if (value.toString() === 'value') {
-        this.props.sentenceList.push({ value: Object[value], version })
+        let hasThisItem = false
+        for (let item of this.props.sentenceList) {
+          if (item.version === version) {
+            item.value = item.value.toString() + Object[value].toString()
+            hasThisItem = true
+            break
+          }
+        }
+        if (!hasThisItem) {
+          let { translations } = this.props.currentPaperContent
+          let translate = ''
+          for (let value in translations) {
+            if (value === version) {
+              translate = translations[value]
+            }
+          }
+          this.props.sentenceList.push({ value: Object[value], version, translate })
+        }
         return
       } else if (value.toString() === 'children') {
         for (let item of Object[value]) {
@@ -26,9 +43,9 @@ export default class MainTranslation extends Component {
   }
 
   getData() {
+    console.log('this.props.currentPaperContent', this.props.currentPaperContent)
     let data = new MarkdownExchange(this.props.currentPaperContent.markdown)
     let { children } = data.ast
-    console.log('kkkk', children)
     for (let item of children) {
       this.getValueFromObject(item, item.version)
     }
@@ -42,6 +59,7 @@ export default class MainTranslation extends Component {
             key={index}
             content={key.value}
             version={key.version}
+            translate={key.translate}
             languages={this.props.languages}
             defaultLanguage={this.props.defaultLanguage}
           />

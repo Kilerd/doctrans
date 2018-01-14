@@ -9,14 +9,14 @@ import { getData } from '../../api/fetchData'
   sentenceList: []
 }))
 export default class TranslateCatalog extends Component {
-  getValueFromObject(Object) {
+  getValueFromObject(Object, index) {
     for (let value in Object) {
       if (value.toString() === 'value') {
-        this.props.sentenceList.push(Object[value])
+        this.props.sentenceList[index] += Object[value]
         return
       } else if (value.toString() === 'children') {
         for (let item of Object[value]) {
-          this.getValueFromObject(item)
+          this.getValueFromObject(item, index)
         }
       }
     }
@@ -26,8 +26,13 @@ export default class TranslateCatalog extends Component {
     let data = new MarkdownExchange(this.props.currentPaperContent.markdown)
     console.log(data)
     let { children } = data.ast
+    let i = 0
     for (let item of children) {
-      this.getValueFromObject(item)
+      if (item) {
+        this.props.sentenceList[i] = ''
+        this.getValueFromObject(item, i)
+        i++
+      }
     }
   }
 

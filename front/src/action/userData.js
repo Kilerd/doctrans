@@ -67,14 +67,9 @@ const actions = {
 
   setCurrentSelectPaper: data => dispatch({ type: 'SetCurrentSelectPaper', data }),
 
-  saveTranslate: function(data) {
-    return async dispatch => {
-      let result = await postData(`/articles/${data.file}/translations`, data)
-      dispatch({
-        type: ''
-      })
-      return result
-    }
+  saveTranslate: async function(data) {
+    let result = await postData(`/articles/${data.file}/translations`, data)
+    return result
   }
 }
 
